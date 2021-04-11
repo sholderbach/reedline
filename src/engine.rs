@@ -552,8 +552,6 @@ impl Reedline {
     }
 
     fn read_line_helper(&mut self) -> Result<Signal> {
-        terminal::enable_raw_mode()?;
-
         self.queue_prompt()?;
 
         let mut terminal_size = terminal::size()?;
@@ -762,6 +760,7 @@ impl Reedline {
                 }
                 Event::Resize(width, height) => {
                     terminal_size = (width, height);
+                    prompt_offset = position()?;
                 }
             }
             if self.history_search.is_some() {
